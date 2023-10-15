@@ -1,0 +1,36 @@
+Corpus
+
+A "Corpus" is a collection of memories. It is the key unit of storage and retrieval in MeMaS, similar to tables in a traditional database. 
+
+Just like database tables, when `memorize`ing information with MeMaS, you need to specify a corpus, and you can perform analytics on the content within a corpus.
+
+Unlike database tables:
+- When `recall`ing, if you don't specify a corpus, you'll be querying all corpuses that user has access to.
+- Create any number of corpuses, on a multiple per user basis.
+- Can configure options, but nothing to the degree of designing your schema. 
+
+Namespace
+
+We organize user and corpus names using a structure we call "Namespaces", taking inspiration from c++ namespaces and file system file paths. All users and corpuses are specified by an unique **namespace pathname**, where each user has its own hierarchical namespace.
+
+For each user, they are either at the root level like `"memas"`, or a child of another user, like `"memas.user1"` or `"memas.pdx.user2"`. The `.` is used to separate the parent user from the child.
+
+Then for each corpus, they are either at the root level like `":test_corpus"`, or belong to a user, like `"memas:test_corpus"` and `"memas.user1:test_corpus"`. The `:` is used to specify that a corpus belongs to the preceding user. Root level corpuses technically belong to the root user `""`, hence the `:` in front of root level corpuses `":test_corpus"`. Even though this may be confusing at first, this helps people distinguish a corpus name from a user name just by looking at the namespace pathname.
+
+This namespace system allows us to use the same corpus name under different users, as well as establish a hierarchical structure so that many permissions/settings propagate naturally.
+
+Control Plane and Data Plane
+MeMaS APIs are split into two distinct sets: Data Plane and Control Plane APIs. 
+
+Data Plane APIs are the most basic data APIs fundamental to the abstraction of a memory module: `memorize` and `recall`. These are safe APIs meant to be called frequently, integrated into AI, and even possibly given full control to chatbots/agents.
+
+Control Plane APIs on the other hand are admin APIs used by administrators/developers to manage the users, corpuses, access/permissions, etc. We highly NOT recommend giving your chatbot/agent access to these APIs.
+
+Access Control from Namespaces
+With the structure of namespaces, we can naturally enforce 2 kinds of permissions.
+
+For CP APIs, users can only call CP APIs targeting namespaces belonging to that user. So for example, for user `"memas.user1"`, they can call CP APIs on `"memas.user1.subuser2"`, `"memas.user1:c1"`, but not `"memas"` nor `"memas.user2"`. 
+
+TBD: For DP APIs, users by default can only call DP APIs within their own direct namespace, meaning that for user `"memas.user1"`, they can call DP APIs on `"memas.user1:corpus"`, but not `"memas:corpus"`, not `"memas.user1.subuser2:corpus"`, nor `"memas.user2:corpus"`. 
+
+Please contact us if you find this model unnatural, it was designed to be intuitive, and likely means oversight from our end...
