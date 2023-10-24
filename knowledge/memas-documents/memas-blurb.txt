@@ -1,0 +1,9 @@
+MeMaS, short for Memory Management Service, was created to provide tools to facilitate AI development while also keeping AI 
+under control. We are at a point where better and more complex AI models are coming out at an unprecedented pace. 
+The models alone, however, are only one piece of the puzzle when it comes to AI applications. 
+To provide a more comprehensive and personalized experience, products like AI agents or assistants need the ability to access 
+the most relevant specific fragments of their or other "memory" on demand. To address this, we at MeMaS are developing a 
+solution that is currently focused on targeted and traceable memory recall for ChatBots. Integrating with the MeMaS service 
+offers the developers of AI based applications personalized and controlled memory systems that can be actively or passively 
+managed. We have ambitions of expanding beyond memory management to provide other server based functions for AI models that 
+elevate their functionality and/or provide administrative control over retrievable information.
